@@ -102,6 +102,43 @@ This repository contains the open-source frontend and simulation demo for the Ka
 * **No Distribution:** You may not redistribute, sub-license, mirror, or publicly host copies of this software code.
 * **View-Only Permission:** Permission is granted solely to download and execute this code locally for personal evaluation, educational inspection, and portfolio review purposes. 
 
-Commercial use, cloning for unauthorized projects, or reverse-engineering of this architecture is strictly prohibited without explicit written consent from the copyright holder.
+Commercial use, cloning for unauthorized projects, or reverse-engineering of this architecture is strictly prohibited without explicit written consent from the copyright holder.🚀 Excited to share my latest engineering milestone: Kateriya-X — a production-grade, Closed-Loop Brain-Computer Interface (BCI) platform!
+
+Developing for neurotechnology means designing for two massive challenges: ultra-low latency telemetry and ironclad safety constraints. To solve this, I built a hybrid architecture that bridges the gap between raw cortical signals and operating system control.
+
+Key features of the public system demo include:
+📡 Asynchronous Telemetry Ingestion: Multi-threaded asyncio and websockets running a rolling numpy ring buffer to handle 250 Hz data streams smoothly.
+🧠 Domain-Adversarial Deep Learning: A PyTorch 1D-CNN designed to strip out subject-specific anatomical variations and isolate invariant focus signatures.
+🛡️ Signal Quality Assurance (Lead-Off Detection): Real-time Welch Power Spectral Density analytics to catch bad electrode contacts, rails, or 50/60Hz AC grid hum instantly.
+🛑 Strict Safety Interlock Firewall: A deterministic safety manager enforcing hard limits on rolling duty-cycles and cooldown windows to prevent hardware over-stimulation.
+🎮 Motor Imagery HUD: A custom Common Spatial Patterns (CSP) spatial-filtering matrix node that decodes imagined left/right hand movements to drive a built-in training maze.
+
+I have open-sourced the frontend dashboard, ingestion architecture, and hardware simulation server as a public portfolio project, while keeping the proprietary hardware blueprints and core deep-learning weights secure.## 💰 Financial Blueprint & Bill of Materials (BOM)
+
+The total estimated cost to assemble, validate, and deploy a physical hardware deployment node for the Kateriya-X BCI system workspace is **$965.00 USD**. Below is the explicit cost breakdown separated by physical hardware requirements and cloud operational infrastructure footprints:
+
+### 1. Physical Hardware Components (BCI Rig)
+* **Core Bio-Telemetry Process Node:** OpenBCI Cyton 8-Channel Board (or equivalent high-resolution ADS1299-based biopotential digitizer) — **$599.00 USD**
+* **Active Electrode Matrix:** Premium Gold-Cup Active Ag/AgCl Electrodes (Set of 10) — **$90.00 USD**
+* **Mechanical Sub-System:** Adjustable Ergonomic Ultracortex Headband Mesh Grid — **$120.00 USD**
+* **Consumables Pack:** Electrophysiological Prep Kit (NuPrep Abrasive Paste, Ten20 Conductive Paste, Isopropyl Alcohol wipes, Cotton Swabs) — **$45.00 USD**
+
+### 2. Computing & Cloud Infrastructure Footprint
+* **Local Processing Ingestion Node:** Containerized Multi-Core Host Environment (Minimum 8GB RAM CPU Target) — **Existing Host Hardware / $0.00**
+* **Cloud Invariant Storage Buffer:** AWS S3 Archive Storage Tier (For raw session CSV telemetry logs retrieval) — **~$5.00 USD / Month**
+* **CI/CD Automation Pipeline Engine:** GitHub Actions Virtual Runner Execution Cycles — **Free Tier Included / $0.00**
+* **Edge Application Hosting Container:** Docker/Docker Compose Stack deployment layer — **Open Source / $0.00**
+
+### 3. Safety Calibration & Verification Equipment
+* **Hardware Impedance Tester:** Handheld Digital Multimeter / Test Bench Verification Unit — **$106.00 USD**
+
+---
+*Note: Cost matrices reflect commercial retail estimates evaluated as of Q4 2026. The public software simulator package requires $0.00 in hardware outlays to build, execute, and inspect.*
+
+
+
+
+
+
 
 
