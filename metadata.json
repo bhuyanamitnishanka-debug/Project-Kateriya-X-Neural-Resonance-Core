@@ -1,0 +1,8 @@
+{
+  "name": "Project Kateriya-X: Neural Resonance Core",
+  "description": "Non-invasive opto-acoustic BCI research workstation and neural resonance simulator honoring Prof. Suneel Kateriya, merging optogenetics, hair follicle biophysics, and photoacoustic engram mapping.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

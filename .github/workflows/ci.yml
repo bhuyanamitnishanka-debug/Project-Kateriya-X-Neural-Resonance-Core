@@ -1,0 +1,103 @@
+name: Project Kateriya-X CI
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - 'feature/**'
+  pull_request:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # =========================================================================
+  # JOB 1: SAFETY INTERLOCK SUITE & CODE QUALITY
+  # =========================================================================
+  safety-interlock-and-quality:
+    name: Biophysical Safety Interlock & TypeScript Verification
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20 Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Node Dependencies
+        run: npm install
+
+      - name: TypeScript Lint & Static Analysis
+        run: npm run lint
+
+      - name: Run Kateriya-X Safety Interlock Suite
+        run: npm test
+
+      - name: Build Production Client & Server Bundle
+        run: npm run build
+
+      - name: Archive Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: kateriya-x-build-dist
+          path: dist/
+          retention-days: 7
+
+  # =========================================================================
+  # JOB 2: DOCKER IMAGE BUILD & CONTAINER SMOKE TEST
+  # =========================================================================
+  build-kateriya-docker:
+    name: Build & Verify Kateriya-X Docker Image
+    needs: safety-interlock-and-quality
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: actions/setup-buildx-action@v3
+
+      - name: Build Kateriya-X Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false
+          load: true
+          tags: |
+            kateriya-x:latest
+            kateriya-x:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Container Smoke Test & Health Check
+        run: |
+          echo "Launching Kateriya-X container instance for integration validation..."
+          docker run -d --name kateriya-core -p 3000:3000 kateriya-x:latest
+          
+          # Poll health check endpoint with timeout
+          for i in {1..15}; do
+            STATUS=$(curl -s http://localhost:3000/api/health || true)
+            if echo "$STATUS" | grep -q "operational"; then
+              echo "✓ Kateriya-X Neural Resonance Core successfully passed health check!"
+              docker stop kateriya-core
+              exit 0
+            fi
+            echo "Awaiting server initialization (attempt $i/15)..."
+            sleep 2
+          done
+
+          echo "✗ Container health check timed out. Fetching container logs:"
+          docker logs kateriya-core
+          exit 1
